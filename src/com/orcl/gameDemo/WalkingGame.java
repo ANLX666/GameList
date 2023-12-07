@@ -5,18 +5,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MovingSun
+public class WalkingGame
 {
 	//TODO a1全局变量“声明”在此
 
-	int width = 50;
-	int height = 50;
-	int x = 300 ;
-	int y = 300 ;
+
+	int width = 280;
+	int height = 300;
 	窗口	ck	= null;
 	定时器	ds1	= null;
-	Dimension newSize;
-	MovingSun()
+	String _img = "fox/0-0.png";
+	int flag_you = 0;
+
+	int flag_shang = 0;
+	int flag_xia = 0;
+	int flag_zuo = 0;
+
+	WalkingGame()
 	{
 		//TODO b程序初始化在此
 
@@ -29,33 +34,6 @@ public class MovingSun
 		ck.setVisible(true);
 		//TODO a2设置游戏快慢
 		ds1 = new 定时器(1000); //延时的毫秒 1000毫秒等于1秒
-
-
-
-//		SwingUtilities.invokeLater(() -> {
-//			JFrame frame = new JFrame("Window Size Example");
-//
-//			// 设置窗口的大小
-//			frame.setSize(600, 600);
-//
-//			// 为确保能够获取到窗口大小，最好在窗口显示之前获取大小
-//			Dimension size = frame.getSize();
-//			System.out.println("Initial Window Size: " + size.width + "x" + size.height);
-//
-//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			frame.setVisible(true);
-//
-//			// 添加组件、事件处理等其他逻辑
-//
-//			// 在需要的时候获取当前窗口大小
-//			frame.addComponentListener(new java.awt.event.ComponentAdapter() {
-//				public void componentResized(java.awt.event.ComponentEvent evt) {
-//					// 在窗口大小变化时触发
-//					Dimension newSize = ck.getSize();
-//					System.out.println("Window Size Changed: " + newSize.width + "x" + newSize.height);
-//				}
-//			});
-//		});
 	}
 
 	class 窗口 extends JFrame
@@ -135,44 +113,94 @@ public class MovingSun
 			//TODO d2键盘处理，可加入KeyEvent.VK_XXX
 			public void keyPressed(KeyEvent e)
 			{
-				System.out.println(e);
 				switch (e.getKeyCode())
 				{
 					case KeyEvent.VK_LEFT://键盘 左键
-						if (x-5>=0){
-							x-=5; // px
-							break;
+						System.out.println(flag_zuo);
+						if(flag_zuo==3){
+							_img = "fox/2-3.png";
+							width -= 5;
+							flag_zuo = 0;
 						}
-						x = 600 - width- 25;
+						if(flag_zuo==2){
+							_img = "fox/2-2.png";
+							width -= 5;
+							flag_zuo = 3;
+						}
+						if(flag_zuo==1){
+							_img = "fox/2-1.png";
+							width -= 5;
+							flag_zuo = 2 ;
+						}
+						if(flag_zuo == 0){
+							_img = "fox/2-0.png";
+							width -= 5;
+							flag_zuo = 1 ;
+						}
 						break;
 					case KeyEvent.VK_RIGHT://键盘 右键
-						if(x+5<=600-width-25){
-							x+=5;
-							break;
+						System.out.println(flag_you);
+						if(flag_you==2){
+							_img = "fox/0-3.png";
+							width += 5;
+							flag_you = 0;
 						}
-						x = 0;
+						if(flag_you==1){
+							_img = "fox/0-2.png";
+							width += 5;
+							flag_you = 2 ;
+						}
+						if(flag_you == 0){
+							_img = "fox/0-1.png";
+							width += 5;
+							flag_you = 1 ;
+						}
 						break;
 					case KeyEvent.VK_UP://键盘 上键
-						if(y-5>=0){
-							y-=5;
-							break;
+						System.out.println(flag_shang);
+						if(flag_shang==3){
+							_img = "fox/1-3.png";
+							height -= 5;
+							flag_shang = 0;
 						}
-						y = 600-height-25;
+						if(flag_shang==2){
+							_img = "fox/1-2.png";
+							height -= 5;
+							flag_shang = 3;
+						}
+						if(flag_shang==1){
+							_img = "fox/1-1.png";
+							height -= 5;
+							flag_shang = 2 ;
+						}
+						if(flag_shang == 0){
+							_img = "fox/1-0.png";
+							height -= 5;
+							flag_shang = 1 ;
+						}
 						break;
 					case KeyEvent.VK_DOWN://键盘 下键
-						if(y+5<=600-height-25){
-							y+=5;
-							break;
+						System.out.println(flag_xia);
+						if(flag_xia==3){
+							_img = "fox/3-3.png";
+							height += 5;
+							flag_xia = 0;
 						}
-						y = 0;
-						break;
-					case KeyEvent.VK_W://w
-						width+=5;
-						height+=5;
-						break;
-					case KeyEvent.VK_S://s
-						width-=5;
-						height-=5;
+						if(flag_xia==2){
+							_img = "fox/3-2.png";
+							height += 5;
+							flag_xia = 3;
+						}
+						if(flag_xia==1){
+							_img = "fox/3-1.png";
+							height += 5;
+							flag_xia = 2 ;
+						}
+						if(flag_xia == 0){
+							_img = "fox/3-0.png";
+							height += 5;
+							flag_xia = 1 ;
+						}
 						break;
 				}
 				repaint();//界面刷新
@@ -254,10 +282,13 @@ public class MovingSun
 				//g.drawString("文字", x, y);//设置文字
 
 				//TODO c绘图在此
-				g.setColor(Color.RED);
-				g.fillOval(x,y,width,height);
-//				Image image = new ImageIcon("fox/0-0.png").getImage();
-//				g.drawImage(image, x, y, null);
+
+				// 加载背景图片
+				Image bgImg = new ImageIcon("fox/backGround.png").getImage();
+				g.drawImage(bgImg, 0, 0, null);
+				Image image = new ImageIcon(_img).getImage();
+				g.drawImage(image, width, height, null);
+
 			}
 		}
 	}
@@ -276,8 +307,6 @@ public class MovingSun
 
 		public void run()
 		{
-			int flag = 0;
-
 			while (true)
 			{
 				try
@@ -287,27 +316,8 @@ public class MovingSun
 					if (this == ds1)
 					{
 						//TODO d1定时处理
-						if(flag ==0 ){
-							if (width < 300 && height < 300 ) {
-								width += 50;
-								height += 50;
-							}
-						}
-						if (width == 300 && height == 300) {
-							flag =  1 ;
-						}
-						System.out.println(height +  " " + width);
-						System.out.println(flag );
-						if (flag == 1 ){
-							System.out.println("开始缩小");
-							if(width > 0 && height >0 ) {
-								width -= 50;
-								height -= 50;
-							}
-						}
-						if(width == 0 && height == 0 ) {
-							flag = 0 ;
-						}
+
+
 						//---------------------------
 						ck.repaint();//界面刷新
 					}
@@ -323,7 +333,7 @@ public class MovingSun
 	//main主方法 ，主类的“入口方法”
 	public static void main(String[] args)
 	{
-		new MovingSun();
+		new WalkingGame();
 	}
 }
 
