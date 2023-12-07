@@ -294,7 +294,7 @@ public class WalkingGame
 				Image image = new ImageIcon(_img).getImage();
 				g.drawImage(image, width, height, null);
 				Image Jimage = new ImageIcon(J_img).getImage();
-				g.drawImage(Jimage, width-50, height, null);
+				g.drawImage(Jimage, width-180, height, null);
 
 			}
 		}
