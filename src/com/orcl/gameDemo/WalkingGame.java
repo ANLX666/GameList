@@ -4,6 +4,9 @@ package com.orcl.gameDemo;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 
 public class WalkingGame
 {
@@ -32,7 +35,7 @@ public class WalkingGame
 		//设定窗口可见性setVisible  true/false
 		ck.setVisible(true);
 		//TODO a2设置游戏快慢
-		ds1 = new 定时器(1000); //延时的毫秒 1000毫秒等于1秒
+		ds1 = new 定时器(50); //延时的毫秒 1000毫秒等于1秒
 	}
 
 	class 窗口 extends JFrame
@@ -106,7 +109,45 @@ public class WalkingGame
 				System.exit(0);
 			}
 		}
-
+		public  void rightMove(){
+			if(flag_you==2){
+				_img = "fox/0-3.png";
+				width += 5;
+				flag_you = 0;
+			}
+			if(flag_you==1){
+				_img = "fox/0-2.png";
+				width += 5;
+				flag_you = 2 ;
+			}
+			if(flag_you == 0){
+				_img = "fox/0-1.png";
+				width += 5;
+				flag_you = 1 ;
+			}
+		}
+		public void leftMove(){
+			if(flag_zuo==3){
+				_img = "fox/2-3.png";
+				width -= 5;
+				flag_zuo = 0;
+			}
+			if(flag_zuo==2){
+				_img = "fox/2-2.png";
+				width -= 5;
+				flag_zuo = 3;
+			}
+			if(flag_zuo==1){
+				_img = "fox/2-1.png";
+				width -= 5;
+				flag_zuo = 2 ;
+			}
+			if(flag_zuo == 0){
+				_img = "fox/2-0.png";
+				width -= 5;
+				flag_zuo = 1 ;
+			}
+		}
 		class 键盘监听器 implements KeyListener
 		{
 			//TODO d2键盘处理，可加入KeyEvent.VK_XXX
@@ -116,29 +157,44 @@ public class WalkingGame
 				{
 					case KeyEvent.VK_LEFT://键盘 左键
 						System.out.println(flag_zuo);
-						if(flag_zuo==3){
-							_img = "fox/2-3.png";
-							width -= 5;
-							flag_zuo = 0;
+						if (width - 5 < 0) {
+							if(flag_zuo==3){
+								_img = "fox/2-3.png";
+								flag_zuo = 0;
+							}
+							if(flag_zuo==2){
+								_img = "fox/2-2.png";
+								flag_zuo = 3;
+							}
+							if(flag_zuo==1){
+								_img = "fox/2-1.png";
+								flag_zuo = 2 ;
+							}
+							if(flag_zuo == 0){
+								_img = "fox/2-0.png";
+								flag_zuo = 1 ;
+							}
+							break;
 						}
-						if(flag_zuo==2){
-							_img = "fox/2-2.png";
-							width -= 5;
-							flag_zuo = 3;
-						}
-						if(flag_zuo==1){
-							_img = "fox/2-1.png";
-							width -= 5;
-							flag_zuo = 2 ;
-						}
-						if(flag_zuo == 0){
-							_img = "fox/2-0.png";
-							width -= 5;
-							flag_zuo = 1 ;
-						}
+						leftMove();
 						break;
 					case KeyEvent.VK_RIGHT://键盘 右键
 						System.out.println(flag_you);
+						if (width+5>600 - 90){
+							if(flag_you==2){
+								_img = "fox/0-3.png";
+								flag_you = 0;
+							}
+							if(flag_you==1){
+								_img = "fox/0-2.png";
+								flag_you = 2 ;
+							}
+							if(flag_you == 0){
+								_img = "fox/0-1.png";
+								flag_you = 1 ;
+							}
+							break;
+						}
 						if(flag_you==2){
 							_img = "fox/0-3.png";
 							width += 5;
@@ -157,6 +213,25 @@ public class WalkingGame
 						break;
 					case KeyEvent.VK_UP://键盘 上键
 						System.out.println(flag_shang);
+						if (height -5 <0) {
+							if(flag_shang==3){
+								_img = "fox/1-3.png";
+								flag_shang = 0;
+							}
+							if(flag_shang==2){
+								_img = "fox/1-2.png";
+								flag_shang = 3;
+							}
+							if(flag_shang==1){
+								_img = "fox/1-1.png";
+								flag_shang = 2 ;
+							}
+							if(flag_shang == 0){
+								_img = "fox/1-0.png";
+								flag_shang = 1 ;
+							}
+							break;
+						}
 						if(flag_shang==3){
 							_img = "fox/1-3.png";
 							height -= 5;
@@ -180,6 +255,25 @@ public class WalkingGame
 						break;
 					case KeyEvent.VK_DOWN://键盘 下键
 						System.out.println(flag_xia);
+						if (height +5 >600 -120) {
+							if(flag_xia==3){
+								_img = "fox/3-3.png";
+								flag_xia = 0;
+							}
+							if(flag_xia==2){
+								_img = "fox/3-2.png";
+								flag_xia = 3;
+							}
+							if(flag_xia==1){
+								_img = "fox/3-1.png";
+								flag_xia = 2 ;
+							}
+							if(flag_xia == 0){
+								_img = "fox/3-0.png";
+								flag_xia = 1 ;
+							}
+							break;
+						}
 						if(flag_xia==3){
 							_img = "fox/3-3.png";
 							height += 5;
@@ -295,6 +389,8 @@ public class WalkingGame
 				g.drawImage(image, width, height, null);
 				Image Jimage = new ImageIcon(J_img).getImage();
 				g.drawImage(Jimage, width-180, height, null);
+				Image jl_Jimage = new ImageIcon("fox/jl.png").getImage();
+				g.drawImage(jl_Jimage, 280-200, 280, null);
 
 			}
 		}
@@ -314,6 +410,7 @@ public class WalkingGame
 
 		public void run()
 		{
+			int __flag = 0;
 			while (true)
 			{
 				try
@@ -323,8 +420,21 @@ public class WalkingGame
 					if (this == ds1)
 					{
 						//TODO d1定时处理
-
-
+						if (__flag == 1 ){
+							ck.leftMove();
+						}
+						if (__flag == 0){
+							ck.rightMove();
+						}
+						if (__flag == 2 ) {
+							ck.rightMove();
+						}
+						if (width + 5 > 600-120){
+							__flag= 1;
+						}
+						if (  width - 5 < 0 ) {
+							__flag = 2 ;
+						}
 						//---------------------------
 						ck.repaint();//界面刷新
 					}
@@ -333,7 +443,7 @@ public class WalkingGame
 				{
 					e.printStackTrace();
 				}
-			}
+            }
 		}
 	}
 
