@@ -16,11 +16,10 @@ public class WalkingGame
 	定时器	ds1	= null;
 	String _img = "fox/0-0.png";
 	int flag_you = 0;
-
 	int flag_shang = 0;
 	int flag_xia = 0;
 	int flag_zuo = 0;
-
+	String J_img = "";
 	WalkingGame()
 	{
 		//TODO b程序初始化在此
@@ -202,6 +201,12 @@ public class WalkingGame
 							flag_xia = 1 ;
 						}
 						break;
+					case KeyEvent.VK_J://键盘 J 发起攻击
+						J_img = "fox/gj.gif";
+						break;
+					case KeyEvent.VK_Q://键盘 Q 取消攻击
+						J_img = "";
+						break;
 				}
 				repaint();//界面刷新
 			}
@@ -288,6 +293,8 @@ public class WalkingGame
 				g.drawImage(bgImg, 0, 0, null);
 				Image image = new ImageIcon(_img).getImage();
 				g.drawImage(image, width, height, null);
+				Image Jimage = new ImageIcon(J_img).getImage();
+				g.drawImage(Jimage, width-50, height, null);
 
 			}
 		}
