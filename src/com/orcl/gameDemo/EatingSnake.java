@@ -1,20 +1,20 @@
-package com.orcl.demo;
+package com.orcl.gameDemo;
 
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Circles
+public class EatingSnake
 {
 	//TODO a1全局变量“声明”在此
-
+    int foodH = 1,foodL = 2;
 
 
 	窗口	ck	= null;
 	定时器	ds1	= null;
 
-	Circles()
+	EatingSnake()
 	{
 		//TODO b程序初始化在此
 
@@ -22,7 +22,7 @@ public class Circles
 
 		ck = new 窗口();
 		//窗口 宽+2*立体边, 高+2*立体边+标题栏
-		ck.setSize(5 * 2 + 600, 600 + 2 * 5 + 25);
+		ck.setSize(830, 670);
 		//设定窗口可见性setVisible  true/false
 		ck.setVisible(true);
 		//TODO a2设置游戏快慢
@@ -182,8 +182,7 @@ public class Circles
 			/**
 			 * 界面刷新方法的实现
 			 */
-			public void paint(Graphics g)
-			{
+			public void paint(Graphics g) {
 				//g.setColor(Color.BLUE);	//设定颜色：RED红 GREEN绿  BLUE蓝  ORANGE橙  WHITE白  GRAY灰 BLACK黑 PINK粉红
 				//g.drawRect(左,上,宽,高);	//绘制矩形
 				//g.fillRect(左,上,宽,高);	//绘制填充矩形
@@ -200,15 +199,38 @@ public class Circles
 				//g.drawString("文字", x, y);//设置文字
 
 				//TODO c绘图在此
-				g.setColor(Color.red);
-//				g.drawOval(10*0,10*0,300-20*0,300-20*0);
-//				g.drawOval(10*1,10*1,300-20*1,300-20*1);
-//				g.drawOval(10*2,10*2,300-20*2,300-20*2);
-				//找 规律 利用for循环实现同心圆的绘制
-				for(int i=0;i<15;i++)
-				{
-					g.drawOval(10-i,10-i,300-20*i,300-20*i);
+
+				// 先画背景
+				Image image = new ImageIcon("贪吃蛇/背景.PNG").getImage();
+				g.drawImage(image, 0, 0, null);
+				// 画食物
+				Image foodImage = new ImageIcon("贪吃蛇/西瓜.png").getImage();
+				g.drawImage(foodImage, foodL * 30 + 10, foodH * 30 + 10, null);
+
+				int sLength =5;
+				int direction = 1;
+				int []sHang = new int[400];
+				int []sLie = new int[400];
+				sLie[0]=10;
+				sLie[1]=10;
+				sLie[2]=10;
+				sLie[3]=10;
+				sLie[4]=10;
+				sHang[0] = 10;
+				sHang[1] = 11;
+				sHang[2] = 12;
+				sHang[3] = 13;
+				sHang[4] = 14;
+				Image t1 = new ImageIcon("贪吃蛇/头"+direction+".png").getImage();
+				g.drawImage(t1, sLie[0] * 30 + 10, sHang[0] * 30 + 10, null);
+				Image tbody = new ImageIcon("贪吃蛇/身.png").getImage();
+				for (int i = 1;i<sLength ;i ++ ){
+					g.drawImage(tbody, sLie[i] * 30 + 10, sHang[i] * 30 + 10, null);
 				}
+				//记分板
+				g.setColor(Color.yellow);
+				g.setFont(new Font("微软雅黑", Font.BOLD, 24));
+				g.drawString("当前为9分" ,  650 , 480);
 			}
 		}
 	}
@@ -253,7 +275,7 @@ public class Circles
 	//main主方法 ，主类的“入口方法”
 	public static void main(String[] args)
 	{
-		new Circles();
+		new EatingSnake();
 	}
 }
 

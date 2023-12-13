@@ -1,9 +1,18 @@
 package com.orcl.demo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class a {
     public static void main(String[] args) {
-        //一个人 一分钟70下
-        long count  = 70 * 60 * 24* 30 * 12  * 60l;
-        System.out.println(count);
+        String[] arr = {"ab", "abc", "qw", "abc"};
+
+        Map<String, Integer> count = new HashMap<>();
+        for (String s : arr) {
+            count.put(s, count.getOrDefault(s, 0) + 1);
+        }
+        for (String s : count.keySet()) {
+            System.out.printf("%s 出现了 %d 次\n", s, count.get(s));
+        }
     }
 }
