@@ -9,6 +9,11 @@ public class EatingSnake
 {
 	//TODO a1全局变量“声明”在此
     int foodH = 1,foodL = 2;
+	int sLength =5;
+	int direction = 1;
+	int []sHang = new int[400];
+	int []sLie = new int[400];
+	int score =0;
 
 
 	窗口	ck	= null;
@@ -18,7 +23,16 @@ public class EatingSnake
 	{
 		//TODO b程序初始化在此
 
-
+		sLie[0]=10;
+		sLie[1]=10;
+		sLie[2]=10;
+		sLie[3]=10;
+		sLie[4]=10;
+		sHang[0] = 10;
+		sHang[1] = 11;
+		sHang[2] = 12;
+		sHang[3] = 13;
+		sHang[4] = 14;
 
 		ck = new 窗口();
 		//窗口 宽+2*立体边, 高+2*立体边+标题栏
@@ -26,7 +40,7 @@ public class EatingSnake
 		//设定窗口可见性setVisible  true/false
 		ck.setVisible(true);
 		//TODO a2设置游戏快慢
-		ds1 = new 定时器(1000); //延时的毫秒 1000毫秒等于1秒
+		ds1 = new 定时器(150); //延时的毫秒 1000毫秒等于1秒
 	}
 
 	class 窗口 extends JFrame
@@ -109,16 +123,16 @@ public class EatingSnake
 				switch (e.getKeyCode())
 				{
 					case KeyEvent.VK_LEFT://键盘 左键
-
+						direction =2;
 						break;
 					case KeyEvent.VK_RIGHT://键盘 右键
-
+						direction =0;
 						break;
 					case KeyEvent.VK_UP://键盘 上键
-
+						direction = 1;
 						break;
 					case KeyEvent.VK_DOWN://键盘 下键
-
+						direction = 3;
 						break;
 				}
 				repaint();//界面刷新
@@ -207,20 +221,7 @@ public class EatingSnake
 				Image foodImage = new ImageIcon("贪吃蛇/西瓜.png").getImage();
 				g.drawImage(foodImage, foodL * 30 + 10, foodH * 30 + 10, null);
 
-				int sLength =5;
-				int direction = 1;
-				int []sHang = new int[400];
-				int []sLie = new int[400];
-				sLie[0]=10;
-				sLie[1]=10;
-				sLie[2]=10;
-				sLie[3]=10;
-				sLie[4]=10;
-				sHang[0] = 10;
-				sHang[1] = 11;
-				sHang[2] = 12;
-				sHang[3] = 13;
-				sHang[4] = 14;
+
 				Image t1 = new ImageIcon("贪吃蛇/头"+direction+".png").getImage();
 				g.drawImage(t1, sLie[0] * 30 + 10, sHang[0] * 30 + 10, null);
 				Image tbody = new ImageIcon("贪吃蛇/身.png").getImage();
@@ -230,7 +231,7 @@ public class EatingSnake
 				//记分板
 				g.setColor(Color.yellow);
 				g.setFont(new Font("微软雅黑", Font.BOLD, 24));
-				g.drawString("当前为9分" ,  650 , 480);
+				g.drawString("当前为"+score+"分" ,  650 , 480);
 			}
 		}
 	}
@@ -258,8 +259,28 @@ public class EatingSnake
 					if (this == ds1)
 					{
 						//TODO d1定时处理
+						System.out.println(direction);
+//						1.1蛇头
+						for (int i = sLength -1 ;i>=1 ; i--){
+							sHang[i]=sHang[i-1];
+							sLie[i]=sLie[i-1];
+						}
 
-
+						switch (direction){
+							case 0:
+								sLie[0] ++;
+								break;
+							case 1:
+								sHang[0]--;
+								break;
+							case 2:
+								sLie[0] --;
+								break;
+							case 3:
+								sHang[0] ++  ;
+								break;
+						}
+//						1.2蛇身
 						//---------------------------
 						ck.repaint();//界面刷新
 					}
