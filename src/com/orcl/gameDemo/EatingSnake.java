@@ -15,7 +15,6 @@ public class EatingSnake
 	int []sLie = new int[400];
 	int score =0;
 
-
 	窗口	ck	= null;
 	定时器	ds1	= null;
 
@@ -260,13 +259,14 @@ public class EatingSnake
 					{
 						//TODO d1定时处理
 						System.out.println(direction);
-//						1.1蛇头
+//						1.1蛇身
 						for (int i = sLength -1 ;i>=1 ; i--){
 							sHang[i]=sHang[i-1];
 							sLie[i]=sLie[i-1];
 						}
-
-						switch (direction){
+						//1.2蛇头
+						switch (direction)
+						{
 							case 0:
 								sLie[0] ++;
 								break;
@@ -277,10 +277,35 @@ public class EatingSnake
 								sLie[0] --;
 								break;
 							case 3:
-								sHang[0] ++  ;
+								sHang[0] ++;
 								break;
 						}
-//						1.2蛇身
+// 						吃食物
+						if (foodL == sLie[0] && foodH == sHang[0])
+						{
+							sLength++;
+							score+=10;
+							foodL=(int)(Math.random()*20);
+							foodH=(int)(Math.random()*20);
+							//random
+						}
+
+						// out critical
+						if (sLie[0]<0 || sLie[0] > 19  || sHang[0]<0 || sHang[0] > 19)
+						{
+							System.exit(0);
+						}
+						// 撞到自己
+						boolean flag = false;
+						for (int i = 1; i< sLength ;i ++) {
+							if (sLie[0] == sLie[i] && sHang[0] == sHang[i]){
+								flag = true;
+								break;
+							}
+						}
+						if (flag){
+							System.exit(0);
+						}
 						//---------------------------
 						ck.repaint();//界面刷新
 					}
